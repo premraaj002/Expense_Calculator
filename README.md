@@ -1,4 +1,4 @@
-#  Expense Calculator App 
+#  Expense Tracker App 
 
 A simple, fast, **personal expense tracking mobile app** built using **Flutter**.  
 This app is designed for **offline, local usage only** — no cloud, no login, no ads.
