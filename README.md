@@ -80,6 +80,6 @@ Expense {
 
 ---
 
-##This product is licensed under the MIT License.
+#This product is licensed under the MIT License.
 
 
