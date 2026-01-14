@@ -16,9 +16,12 @@ void main() async {
     statusBarIconBrightness: Brightness.light,
   ));
 
-  await HiveService.init();
-  ExpenseDataService().init(); // Init Service and Caching
-
+  try {
+    await HiveService.init();
+    ExpenseDataService().init(); // Init Service and Caching
+  } catch (e) {
+    debugPrint('Initialization error in main: $e');
+  }
 
   runApp(const MyApp());
 }

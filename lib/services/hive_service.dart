@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/expense_model.dart';
 
@@ -5,9 +6,18 @@ class HiveService {
   static const String expenseBoxName = 'expenses';
 
   static Future<void> init() async {
-    await Hive.initFlutter();
-    Hive.registerAdapter(ExpenseAdapter());
-    await Hive.openBox<Expense>(expenseBoxName);
+    try {
+      await Hive.initFlutter();
+      if (!Hive.isAdapterRegistered(0)) {
+        Hive.registerAdapter(ExpenseAdapter());
+      }
+      await Hive.openBox<Expense>(expenseBoxName);
+    } catch (e) {
+      debugPrint('Hive initialization error: $e');
+      // Potentially attempt to delete and reopen if it's a schema mismatch that prevents opening
+      // But for now, just let it throw or handle it in main
+      rethrow;
+    }
   }
 
   static Box<Expense> get expenseBox => Hive.box<Expense>(expenseBoxName);

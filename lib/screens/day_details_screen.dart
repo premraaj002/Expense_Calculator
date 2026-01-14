@@ -83,6 +83,14 @@ class DayDetailsScreen extends StatelessWidget {
                                   style: const TextStyle(fontSize: 12, color: Colors.grey),
                                 ),
                               ),
+                            if (expense.paymentMode != null && expense.paymentMode!.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  'Paid via ${expense.paymentMode}',
+                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.primary),
+                                ),
+                              ),
                           ],
                         ),
                         trailing: Row(

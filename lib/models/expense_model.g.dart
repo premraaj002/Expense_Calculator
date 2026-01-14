@@ -23,13 +23,14 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       categories: (fields[3] as List).cast<String>(),
       otherName: fields[4] as String?,
       purchasedItems: fields[5] as String?,
+      paymentMode: fields[6] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Expense obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class ExpenseAdapter extends TypeAdapter<Expense> {
       ..writeByte(4)
       ..write(obj.otherName)
       ..writeByte(5)
-      ..write(obj.purchasedItems);
+      ..write(obj.purchasedItems)
+      ..writeByte(6)
+      ..write(obj.paymentMode);
   }
 
   @override

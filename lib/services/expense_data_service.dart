@@ -20,21 +20,32 @@ class ExpenseDataService extends ChangeNotifier {
   List<Expense> get allExpenses => _allExpenses;
 
   void init() {
-    // Listen to Hive box changes
-    HiveService.expenseBox.listenable().addListener(_onBoxChanged);
-    // Initial Load
-    _onBoxChanged();
+    try {
+      // Listen to Hive box changes
+      HiveService.expenseBox.listenable().addListener(_onBoxChanged);
+      // Initial Load
+      _onBoxChanged();
+    } catch (e) {
+      debugPrint('ExpenseDataService initialization error: $e');
+    }
   }
 
   void _onBoxChanged() {
-    // Load all data
-    _allExpenses = HiveService.expenseBox.values.toList();
-    
-    // Sort logic: Recent first
-    _allExpenses.sort((a, b) => b.date.compareTo(a.date));
+    try {
+      // Load all data
+      _allExpenses = HiveService.expenseBox.values.toList();
+      
+      // Sort logic: Recent first
+      _allExpenses.sort((a, b) {
+        // Fallback for missing dates if any
+        return b.date.compareTo(a.date);
+      });
 
-    _recomputeCache();
-    notifyListeners();
+      _recomputeCache();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error loading expenses from box: $e');
+    }
   }
 
   void _recomputeCache() {

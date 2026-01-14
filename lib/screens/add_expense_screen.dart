@@ -23,11 +23,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   TextEditingController? _purchasedItemsController; // Nullable for lazy init
   DateTime _selectedDate = DateTime.now();
   List<String> _selectedCategories = [];
+  String? _selectedPaymentMode;
 
   final List<String> _allCategories = [
-    'Milk', 'Grocery', 'Food', 'Petrol', 'Zepto', 'BigBasket', 'Swiggy', 'Zomato' ,
-    'Flipkart', 'Amazon', 'EMI', 'Electricity Bill', 'Rent','Mobile Recharge', 'Wifi Bill' , 'Gas Bill', 'Snacks', 'Savings' ,'Others' 
+    'Milk', 'Grocery', 'Food', 'Vegetables', 'Petrol', 'Zepto', 'BigBasket', 'Swiggy', 'Zomato' ,
+    'Flipkart', 'Amazon', 'EMI', 'Electricity Bill', 'Rent','Mobile Recharge', 'Wifi Bill' , 'Gas Bill', 'Snacks', 'Savings' , 'Travel Expenses', 'Others' 
   ];
+
+  final List<String> _paymentModes = ['Credit Card', 'GPay', 'Cash','Debit Card'];
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       // _purchasedItemsController init moved to build for Hot Reload safety
       _selectedDate = widget.expenseToEdit!.date;
       _selectedCategories = List.from(widget.expenseToEdit!.categories);
+      _selectedPaymentMode = widget.expenseToEdit!.paymentMode;
     } else {
       _amountController = TextEditingController();
       _otherNameController = TextEditingController();
@@ -139,6 +143,34 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             
             const SizedBox(height: 16),
             
+            // Mode of Payment
+            const Text('Mode of Payment', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: _paymentModes.map((mode) {
+                final isSelected = _selectedPaymentMode == mode;
+                return FilterChip(
+                  label: Text(mode),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      _selectedPaymentMode = selected ? mode : null;
+                    });
+                  },
+                  backgroundColor: AppColors.surface,
+                  selectedColor: AppColors.primary.withOpacity(0.3),
+                  checkmarkColor: AppColors.primary,
+                );
+              }).toList(),
+            ),
+            if (_selectedPaymentMode == null)
+              const Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text('Please select a payment mode', style: TextStyle(color: AppColors.error))),
+            
+            const SizedBox(height: 16),
+            
             // Purchased Items (Optional)
             TextFormField(
               controller: _purchasedItemsController,
@@ -193,6 +225,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         return;
       }
 
+      if (_selectedPaymentMode == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Select a payment mode')));
+        return;
+      }
+
       final amount = double.parse(_amountController.text);
 
       // Just use time based ID if no UUID package, or just Random. 
@@ -206,6 +243,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         categories: List.from(_selectedCategories), // Fix: Create new list copy
         otherName: _otherNameController.text.isEmpty ? null : _otherNameController.text,
         purchasedItems: _purchasedItemsController?.text.isEmpty ?? true ? null : _purchasedItemsController!.text,
+        paymentMode: _selectedPaymentMode!,
       );
 
       if (widget.expenseToEdit != null) {
@@ -220,6 +258,24 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
       }
 
+      // Show success message
+      if (mounted) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white),
+                SizedBox(width: 8),
+                Text('Expense saved successfully'),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+
       if (widget.onSaved != null) {
         // Tab Input Mode
         widget.onSaved!();
@@ -229,6 +285,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           _otherNameController.clear();
           _purchasedItemsController?.clear();
           _selectedCategories.clear();
+          _selectedPaymentMode = null;
           _selectedDate = DateTime.now();
         });
       } else {

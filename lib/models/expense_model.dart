@@ -22,6 +22,9 @@ class Expense extends HiveObject {
   @HiveField(5)
   final String? purchasedItems;
 
+  @HiveField(6)
+  final String? paymentMode;
+
   Expense({
     required this.id,
     required this.date,
@@ -29,5 +32,6 @@ class Expense extends HiveObject {
     required this.categories,
     this.otherName,
     this.purchasedItems,
+    this.paymentMode,
   });
 }

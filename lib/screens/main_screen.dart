@@ -21,9 +21,8 @@ class _MainScreenState extends State<MainScreen> {
           const MonthsScreen(),
           AddExpenseScreen(
             onSaved: () {
-              setState(() {
-                _currentIndex = 0; // Go to Months after save
-              });
+              // Stay on Expense tab after save (index 1)
+              // Form fields are already cleared in AddExpenseScreen
             },
           ),
         ],
