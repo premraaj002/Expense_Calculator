@@ -42,7 +42,7 @@ All expense data is stored securely on the device using **Hive (local storage)**
 ---
 
 ## 📂 Project Structure
-lib/
+```lib/
 ├── models/
 │ └── expense_model.dart
 ├── services/
@@ -55,7 +55,7 @@ lib/
 ├── notifications/
 │ └── notification_service.dart
 └── main.dart
-
+```
 ---
 
 ## 📝 Expense Data Model
