@@ -1,16 +1,83 @@
-# expense
+#  Expense Tracker App 
 
-A new Flutter project.
+A simple, fast, **personal expense tracking mobile app** built using **Flutter**.  
+This app is designed for **offline, local usage only** — no cloud, no login, no ads.
 
-## Getting Started
+All expense data is stored securely on the device using **Hive (local storage)**.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 📅 Months & Expenses
+- View expenses grouped by **Month → Date → Individual Expenses**
+- See **total spending per day**
+- Edit or delete any expense
+- Smooth and lag-free performance
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### ➕ Add Expense
+- Enter expense amount
+- Select one or more categories:
+  - Food, Grocery, Amazon, Flipkart, Zepto, Swiggy, BigBasket,
+    Zomato, Blinkit, Vegetables, Milk, Snacks, Others
+- If **Others** is selected → enter custom expense name
+- Optional field to note **what was purchased**
+- Date selection (default: today)
+
+
+### 💾 Local Storage Only
+- Uses **Hive** for fast local persistence
+- No Firebase
+- No internet usage
+- No authentication
+
+---
+
+## 🧱 Tech Stack
+
+- **Flutter**
+- **Hive** (Local NoSQL database)
+- Material UI (no animations)
+
+---
+
+## 📂 Project Structure
+```lib/
+├── models/
+│ └── expense_model.dart
+├── services/
+│ └── hive_service.dart
+├── screens/
+│ ├── months_screen.dart
+│ ├── month_details_screen.dart
+│ ├── day_details_screen.dart
+│ └── add_expense_screen.dart
+├── notifications/
+│ └── notification_service.dart
+└── main.dart
+```
+---
+
+## 📝 Expense Data Model
+
+```dart
+Expense {
+  String id;
+  DateTime date;
+  double amount;
+  List<String> categories;
+  String? otherName;
+  String? purchasedItems;
+} 
+```
+---
+
+## App Screenshots
+
+<img src="Assets/1.jpg" width="250"  /> &nbsp;&nbsp;&nbsp;     <img src="Assets/2.jpg" width="250"  /> &nbsp;&nbsp;&nbsp;      <img src="Assets/3.jpg" width="250"  />
+
+---
+
+#This product is licensed under the MIT License.
+
+
