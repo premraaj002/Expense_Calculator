@@ -74,9 +74,7 @@ Expense {
 
 ## App Screenshots
 
-<img src="Assets/1.jpg" width="250" />
-<img src="Assets/2.jpg" width="250" />
-<img src="Assets/3.jpg" width="250" />
+<img src="Assets/1.jpg" width="250" /> <img src="Assets/2.jpg" width="250" /> <img src="Assets/3.jpg" width="250" />
 
 ---
 
